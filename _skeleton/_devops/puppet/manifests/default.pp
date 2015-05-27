@@ -8,15 +8,14 @@ group { 'puppet':
     ensure => 'present',
 }
 
-class apt {
-    # ensure local apt cache index is up to date
-    exec { 'apt-get update':
-    }
+# ensure local apt cache index is up to date
+exec { 'apt-get update':
 }
 
-class tools {
-    include apt
+# ensure apt-get update run before all other Package resource
+Exec['apt-get update'] -> Package <| |>
 
+class tools {
     $packages = [
         'vim',
         'curl',
@@ -25,7 +24,6 @@ class tools {
 
     package { $packages:
         ensure => present,
-        require => Exec['apt-get update'],
     }
 }
 

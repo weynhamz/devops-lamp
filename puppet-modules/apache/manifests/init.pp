@@ -1,9 +1,6 @@
 class apache {
-    include apt
-
     package { 'apache2':
         ensure => present,
-        require => Exec['apt-get update'],
     }
 
     service { 'apache2':
